@@ -10,7 +10,7 @@
   Python版本 >= 2.6 (3.x版本没测试)    
 #### 授权    
 
-    grant all on *.* to testuser@'localhost' identified by 'testpwd';    
+      grant all on *.* to testuser@'localhost' identified by 'testpwd';    
 #### 参数    
   在5.7版本中，需要打开show_compatibility_56参数。    
   
