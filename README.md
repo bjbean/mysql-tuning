@@ -1,14 +1,14 @@
 
-##1.准备条件
-###模块
-  模块 - MySQLDB
-  模块 - sqlparse
-  模块 - prettytable
-###版本
-  Python版本 >= 2.7.3 (3.x版本没测试，应该不行)
-##授权
+###1.准备条件
+####模块
+  模块 - MySQLDB  
+  模块 - sqlparse  
+  模块 - prettytable  
+####版本
+  Python版本 >= 2.6 (3.x版本没测试)
+####授权
   grant all on *.* to testuser@'localhost' identified by 'testpwd';
-##参数
+####参数
   在5.7版本中，需要打开show_compatibility_56参数。
   set global show_compatibility_56=on;
   
