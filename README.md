@@ -18,10 +18,10 @@
 ### 2.调用方法
 python mysql_tuning.py -p tuning_sql.ini -s 'select d.dname ,e.empno from big_dep...'    
 #### 参数说明     
-     -p  指定配置文件名称    
-     -s  指定SQL语句    
+     -p  指定配置文件名称，文件格式及含义参加下面说明。   
+     -s  指定SQL语句。    
 #### 配置文件    
-  共分两节信息，分别是[database]描述数据库连接信息，[option]运行配置信息。  
+  文本格式，共分两节信息。分别是[database]描述数据库连接信息，[option]运行配置信息。  
   
       [database]
       server_ip   = 127.0.0.1
