@@ -1,7 +1,7 @@
 
 ###1.准备条件
 ####模块
-  模块 - MySQLDB  
+  -  模块 - MySQLDB  
   模块 - sqlparse  
   模块 - prettytable  
 ####版本
