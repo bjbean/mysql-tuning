@@ -289,14 +289,15 @@ def f_get_table(p_dbinfo,p_sqltext):
 def f_get_tableinfo(p_dbinfo,p_tablename):
     db = MySQLdb.connect(host=p_dbinfo[0], port=string.atoi(p_dbinfo[1]),user=p_dbinfo[2], passwd=p_dbinfo[3],db=p_dbinfo[4])
     cursor = db.cursor()
-    cursor.execute("select table_name,engine,row_format as format,table_rows,avg_row_length as avg_row,round((data_length+index_length)/1024/1024,2) as total_mb,round((data_length)/1024/1024,2) as data_mb,round((index_length)/1024/1024,2) as index_mb from information_schema.tables where table_schema='"+p_dbinfo[4]+"' and table_name='"+p_tablename+"'")
+    #cursor.execute("select table_name,engine,row_format as format,table_rows,avg_row_length as avg_row,round((data_length+index_length)/1024/1024,2) as total_mb,round((data_length)/1024/1024,2) as data_mb,round((index_length)/1024/1024,2) as index_mb from information_schema.tables where table_schema='"+p_dbinfo[4]+"' and table_name='"+p_tablename+"'")
+    cursor.execute("select a.table_name,a.engine,a.row_format as format,a.table_rows,a.avg_row_length as avg_row,round((a.data_length+a.index_length)/1024/1024,2) as total_mb,round((a.data_length)/1024/1024,2) as data_mb,round((a.index_length)/1024/1024,2) as index_mb,a.create_time,b.last_update last_analyzed from information_schema.tables a ,mysql.innodb_table_stats b where a.table_schema=b.database_name and a.table_name=b.table_name and a.table_schema='"+p_dbinfo[4]+"' and a.table_name='"+p_tablename+"'")
     records = cursor.fetchall ()
     cursor.close()
     db.close()
     return records
 
 def f_print_tableinfo(p_table_stat):
-    print_table(['table_name','engine','format','table_rows','avg_row','total_mb','data_mb','index_mb'],p_table_stat,['l','l','l','r','r','r','r','r'])
+    print_table(['table_name','engine','format','table_rows','avg_row','total_mb','data_mb','index_mb','create_time','last_analyzed'],p_table_stat,['l','l','l','r','r','r','r','r','c','c'])
 
 def f_get_indexinfo(p_dbinfo,p_tablename):
     db = MySQLdb.connect(host=p_dbinfo[0], port=string.atoi(p_dbinfo[1]),user=p_dbinfo[2], passwd=p_dbinfo[3],db=p_dbinfo[4])
@@ -307,9 +308,22 @@ def f_get_indexinfo(p_dbinfo,p_tablename):
     db.close()
     return records
 
-def f_print_indexinfo(p_index_stat):
+def f_print_indexinfo(p_index_info):
+    if len(p_index_info)>0:
+        print_table(['index_name','non_unique','seq_in_index','column_name','collation','cardinality','nullable','index_type'],p_index_info,['l','r','r','l','','r','r','l'])
+
+def f_get_indexstat(p_dbinfo,p_tablename):
+    db = MySQLdb.connect(host=p_dbinfo[0], port=string.atoi(p_dbinfo[1]),user=p_dbinfo[2], passwd=p_dbinfo[3],db=p_dbinfo[4])
+    cursor = db.cursor()
+    cursor.execute("select index_name,last_update last_analyzed,stat_name,stat_value,sample_size,stat_description from mysql.innodb_index_stats a where database_name='"+p_dbinfo[4]+"' and table_name='"+p_tablename+"' order by index_name,stat_name")
+    records = cursor.fetchall ()
+    cursor.close()
+    db.close()
+    return records
+
+def f_print_indexstat(p_index_stat):
     if len(p_index_stat)>0:
-        print_table(['index_name','non_unique','seq_in_index','column_name','collation','cardinality','nullable','index_type'],p_index_stat,['l','r','r','l','','r','r','l'])
+        print_table(['index_name','last_analyzed','stat_name','stat_value','sample_size','stat_description'],p_index_stat,['l','c','l','r','r','l'])
 
 def f_get_mysql_version(p_dbinfo):    
     db = MySQLdb.connect(host=p_dbinfo[0], port=string.atoi(p_dbinfo[1]),user=p_dbinfo[2], passwd=p_dbinfo[3],db=p_dbinfo[4])
@@ -323,7 +337,7 @@ def f_get_mysql_version(p_dbinfo):
 def f_print_title(p_dbinfo,p_mysql_version,p_sqltext):
     print
     print '*'*100
-    print '*','MySQL SQL Tuning Tools v1.0 (by hanfeng)'.center(96),'*'
+    print '*','MySQL SQL Tuning Tools v2.0 (by hanfeng)'.center(96),'*'
     print '*'*100
     print 
 
@@ -390,6 +404,7 @@ if __name__=="__main__":
         for table_name in extract_tables(sqltext):
             f_print_tableinfo(f_get_tableinfo(dbinfo,table_name))
             f_print_indexinfo(f_get_indexinfo(dbinfo,table_name))
+            f_print_indexstat(f_get_indexstat(dbinfo,table_name))
         print
     
     if config.get("option","ses_status")=='ON':
