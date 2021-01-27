@@ -19,6 +19,7 @@
   set global show_compatibility_56=on;    
   
   需要开放导出文件权限。
+  
   set secure_file_priv='';
   
 ### 2.调用方法
