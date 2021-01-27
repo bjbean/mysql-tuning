@@ -18,7 +18,7 @@
   在5.7版本中，需要打开show_compatibility_56参数。    
   set global show_compatibility_56=on;    
   
-  需要开放导出文件权限
+  需要开放导出文件权限。
   set secure_file_priv='';
   
 ### 2.调用方法
@@ -48,7 +48,7 @@
       obj_stat    = ON	//是否显示相关对象(表、索引)统计信息
       ses_status  = ON	//是否显示运行前后状态信息(激活后会真实执行SQL)
       sql_profile = ON	//是否显示PROFILE跟踪信息(激活后会真实执行SQL)
-      opt_trace   = ON  //是否开启optimizer trace(激活后会真实执行SQL)
+      opt_trace   = ON      //是否开启optimizer trace(激活后会真实执行SQL)
 ### 3.输出说明    
 #### 标题部分    
    包含运行数据库的地址信息及数据版本信息。    
