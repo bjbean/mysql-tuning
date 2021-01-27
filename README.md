@@ -8,21 +8,25 @@
   -  模块 - prettytable    
   
 #### 版本  
-  Python版本 >= 2.6, mysql_tuning.py
-  Python版本 =3.x，mysql_tuning_v3.py 
+  - Python版本 >= 2.6, mysql_tuning.py
+  - Python版本 =3.x，mysql_tuning_v3.py 
   
 #### 授权    
-
       grant all on *.* to testuser@'localhost' identified by 'testpwd';    
+
 #### 参数    
   在5.7版本中，需要打开show_compatibility_56参数。    
+  set global show_compatibility_56=on;    
   
-      set global show_compatibility_56=on;    
-  需要开放导出文件权限限制
+  需要开放导出文件权限
+  set secure_file_priv='';
   
 ### 2.调用方法
-python mysql_tuning.py -p tuning_sql.ini -s 'select d.dname ,e.empno from big_dep...'    
-python mysql_tuning_v3.py -p tuning_sql.ini -s 'select d.dname ,e.empno from big_dep...'    
+- python 2.x用法
+    python mysql_tuning.py -p tuning_sql.ini -s 'select d.dname ,e.empno from big_dep...'    
+- python 3.x用法
+    python mysql_tuning_v3.py -p tuning_sql.ini -s 'select d.dname ,e.empno from big_dep...'    
+
 #### 参数说明     
      -p  指定配置文件名称，文件格式及含义参加下面说明。   
      -s  指定SQL语句。    
