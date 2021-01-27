@@ -3,7 +3,7 @@
 ### 1.准备条件
 #### 模块
   -  模块 - MySQLDB（适用于旧版本）
-  -  模块 - pymysql (使用于v3版本)
+  -  模块 - pymysql（使用于v3版本）
   -  模块 - sqlparse  
   -  模块 - prettytable    
   
