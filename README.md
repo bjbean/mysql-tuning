@@ -19,12 +19,14 @@
   set global show_compatibility_56=on;    
   
   需要开放导出文件权限
+  
   set secure_file_priv='';
   
 ### 2.调用方法
-- python 2.x用法
+  -  python 2.x用法
     python mysql_tuning.py -p tuning_sql.ini -s 'select d.dname ,e.empno from big_dep...'    
-- python 3.x用法
+  
+  -  python 3.x用法
     python mysql_tuning_v3.py -p tuning_sql.ini -s 'select d.dname ,e.empno from big_dep...'    
 
 #### 参数说明     
